@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity() {
             audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
             0)
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL)
-        mediaPlayer.isLooping = true
-        mediaPlayer.start()
+        audioManager.isSpeakerphoneOn = false
+//        mediaPlayer.isLooping = true
 
         binding.btbSwitchCall.setOnClickListener {
             if (!speakerphone) {
