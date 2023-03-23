@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">demoAudioCall</string>
+    <string name="speakerphone">loa ngoài</string>
+    <string name="internalSpeaker">loa trong</string>
+</resources>
