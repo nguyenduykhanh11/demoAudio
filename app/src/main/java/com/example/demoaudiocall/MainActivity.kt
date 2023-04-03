@@ -1,8 +1,11 @@
 package com.example.demoaudiocall
 
 import android.content.Context
+import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.demoaudiocall.databinding.ActivityMainBinding
@@ -18,54 +21,38 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        mediaPlayer = MediaPlayer.create(this, R.raw.demo)
-
-//        demoMedia()
-        demoCall()
-
+        initMediaPlay()
     }
 
-    private fun demoMedia() {
-        audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+    private fun initMediaPlay() {
         audioManager.isSpeakerphoneOn = false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val audioAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build()
+            mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(applicationContext, Uri.parse("android.resource://" + packageName + "/" + R.raw.demo))
+            mediaPlayer.setAudioAttributes(audioAttributes)
+            mediaPlayer.prepare()
 
-        binding.btbSwitchMedia.setOnClickListener {
-            if (!speakerphone) {
-                speakerphone = true
-                binding.btbSwitchMedia.text = getString(R.string.speakerphone)
-                audioManager.mode = AudioManager.MODE_NORMAL
-                audioManager.isSpeakerphoneOn = true
-            } else {
-                speakerphone = false
-                audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
-                audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 5, 0)
-                audioManager.isSpeakerphoneOn = false
-                binding.btbSwitchMedia.text = getString(R.string.internalSpeaker)
-            }
-            if (mediaPlayer.isPlaying) {
-                mediaPlayer.pause()
-                mediaPlayer.start()
-            }
-        }
+            audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+            audioManager.setStreamVolume(
+                AudioManager.STREAM_VOICE_CALL,
+                audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
+                0
+            )
+        } else {
+            val mediaPlayer = MediaPlayer.create(this, R.raw.demo)
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL)
 
-        binding.btnPlayMedia.setOnClickListener {
-            if (!mediaPlayer.isPlaying) {
-                mediaPlayer.start()
-            }
+            audioManager.mode = AudioManager.MODE_IN_CALL
+            audioManager.setStreamVolume(
+                AudioManager.STREAM_VOICE_CALL,
+                audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
+                0
+            )
         }
-        binding.btnPauseMedia.setOnClickListener {
-            mediaPlayer.pause()
-        }
-    }
-
-    private fun demoCall() {
-        audioManager.mode = AudioManager.MODE_IN_CALL
-        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
-            audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
-            0)
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL)
-        audioManager.isSpeakerphoneOn = false
-//        mediaPlayer.isLooping = true
 
         binding.btbSwitchCall.setOnClickListener {
             if (!speakerphone) {

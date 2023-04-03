@@ -7,67 +7,12 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/ll_play_media"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Phát âm thanh bằng media"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            tools:ignore="HardcodedText" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_play_media"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="play"
-                android:layout_marginEnd="30dp"
-                tools:ignore="HardcodedText" />
-            <Button
-                android:id="@+id/btn_pause_media"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pause"
-                tools:ignore="HardcodedText" />
-        </LinearLayout>
-        <Switch
-            android:id="@+id/btb_switch_media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="loa trong"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml" />
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imv_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/ll_play_media"
-        android:layout_marginTop="40dp"/>
-
-    <LinearLayout
         android:id="@+id/ll_play_call"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/imv_line">
+        app:layout_constraintTop_toTopOf="parent">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
